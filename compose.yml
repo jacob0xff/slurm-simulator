@@ -1,0 +1,32 @@
+services:
+  controller:
+    build: .
+    container_name: slurm-controller
+    hostname: controller
+    privileged: true
+    command: /bin/bash -c "service munge start && service slurmctld start || true && service slurmd start && echo 'Controller up' && tail -f /dev/null"
+    volumes:
+      - ./slurm/slurm.conf:/etc/slurm/slurm.conf
+    networks:
+      slurm-net:
+        aliases:
+          - controller
+
+  compute1:
+    build: .
+    container_name: slurm-compute1
+    hostname: compute1
+    privileged: true
+    depends_on:
+      - controller
+    command: /bin/bash -c "service munge start && service slurmd start && echo 'Compute node up' && tail -f /dev/null"
+    volumes:
+      - ./slurm/slurm.conf:/etc/slurm/slurm.conf
+    networks:
+      slurm-net:
+        aliases:
+          - compute1
+
+networks:
+  slurm-net:
+    driver: bridge
