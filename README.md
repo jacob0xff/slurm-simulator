@@ -57,4 +57,4 @@ To add more nodes simply copy the compute1 node N times to your liking.
 
 
 ### Slurm .conf
-In ```/slurm/slurm.conf``` holds the basic configurations of the slurm environment. Adjust as needed.
+```/slurm/slurm.conf``` holds the basic configurations of the slurm environment. Adjust as needed.
